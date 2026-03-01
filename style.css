@@ -1,0 +1,190 @@
+:root {
+    /* Base & Text */
+    --color-bg-light: #f9fafb;
+    --color-text-light: #1f2937;
+    --color-bg-dark: #111827;
+    --color-text-dark: #f3f4f6;
+
+    /* Primary/Accent Color */
+    --color-primary: #0ea5e9; /* sky-500 */
+    --color-primary-focus-shadow: rgba(14, 165, 233, 0.4);
+
+    /* Borders & Surfaces */
+    --color-border-light: #e5e7eb;
+    --color-border-dark: #374151;
+    --color-surface-light: #ffffff;
+    --color-surface-dark: #1f2937;
+
+    /* Selection/Highlight */
+    --color-selection-bg-light: #dbeafe; /* blue-200 */
+    --color-selection-text-light: #1e3a8a; /* blue-800 */
+    --color-selection-bg-dark: #1e40af; /* blue-800 */
+    --color-selection-text-dark: #eff6ff; /* blue-50 */
+
+    /* General Transition */
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Table Font Size & Color */
+    --table-font-size: 14px; /* Default font size */
+    --table-text-color: inherit; /* Default font color */
+}
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: var(--color-bg-light);
+    color: var(--color-text-light);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+html.dark body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-dark);
+}
+
+/* FIX: Ensure dropdown options in dark mode are readable */
+html.dark select option {
+    background: var(--color-surface-dark);
+    color: var(--color-text-dark);
+}
+
+.modal { 
+    display: none; 
+    backdrop-filter: blur(4px); 
+    background-color: rgba(0,0,0,0.5);
+}
+.modal.active { display: flex; }
+.modal-content { 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    transform: scale(0.95); 
+    opacity: 0; 
+}
+.modal.active .modal-content { 
+    transform: scale(1); 
+    opacity: 1; 
+}
+
+#toast-container { 
+    position: fixed; 
+    top: 20px; 
+    right: 20px; 
+    z-index: 1050; 
+}
+.toast { 
+    transform: translateX(120%); 
+    transition: transform 0.4s ease; 
+}
+.toast.show { transform: translateX(0); }
+
+.sticky-header { 
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+}
+.sticky-col { 
+    position: sticky; 
+    left: 0; 
+    z-index: 5; 
+}
+
+/* --- MODERN TABLE STYLES --- */
+#table-container {
+    font-size: var(--table-font-size); /* Use CSS variable for font size */
+    transition: font-size 0.2s ease, color 0.2s ease;
+    color: var(--table-text-color);
+}
+
+#data-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+#data-table th, #data-table td {
+    border-bottom: 1px solid var(--color-border-light);
+    transition: background-color var(--transition-fast);
+}
+
+#data-table th {
+    font-weight: 600;
+    text-align: center; /* Center headers */
+    background-color: var(--color-bg-light);
+    padding: 0.75rem;
+    color: var(--color-text-light);
+}
+
+html.dark #data-table th {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-dark);
+}
+
+html.dark #data-table th, html.dark #data-table td {
+    border-color: var(--color-border-dark);
+}
+
+#data-table tbody tr:nth-child(even):not([style*="background-color"]) { background-color: var(--color-surface-light); }
+html.dark #data-table tbody tr:nth-child(even):not([style*="background-color"]) { background-color: var(--color-surface-dark); }
+
+#data-table tbody tr:hover:not(.selected-row) { 
+    background-color: #f3f4f6; /* gray-100 */
+}
+html.dark #data-table tbody tr:hover:not(.selected-row) { 
+    background-color: #374151; /* gray-700 */
+}
+
+/* --- SELECTION & FOCUS STYLES --- */
+.selected-row { 
+    background-color: var(--color-selection-bg-light) !important; 
+    color: var(--color-selection-text-light) !important;
+}
+html.dark .selected-row { 
+    background-color: var(--color-selection-bg-dark) !important; 
+    color: var(--color-selection-text-dark) !important;
+}
+
+.selected-row td {
+    color: inherit !important;
+}
+
+.selected-row .sticky-col, .selected-row:hover .sticky-col { 
+    background-color: inherit !important; 
+}
+
+.data-cell:focus, .date-cell:focus, input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-focus-shadow);
+    border-color: var(--color-primary) !important;
+}
+
+.invalid-cell { 
+    box-shadow: 0 0 0 2px #ef4444 !important; /* red-500 */
+}
+
+/* --- NEW STYLES FOR REORDER BUTTONS --- */
+.move-manual-field-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+    padding: 1px 3px;
+    font-size: 9px;
+    color: #581c87; /* purple-900 */
+    border-radius: 4px;
+}
+
+html.dark .move-manual-field-btn {
+    color: #c084fc; /* purple-400 */
+}
+
+.move-manual-field-btn:hover:not(:disabled) {
+    background-color: rgba(147, 51, 234, 0.1);
+    color: #9333ea; /* purple-600 */
+}
+
+html.dark .move-manual-field-btn:hover:not(:disabled) {
+    background-color: rgba(233, 213, 255, 0.1);
+    color: #e9d5ff; /* purple-200 */
+}
+
+.move-manual-field-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
